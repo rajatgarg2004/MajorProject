@@ -3,7 +3,6 @@ import TimeTable from './TimeTable'
 const Student = () => {
   return (
     <>
-        <div>Student</div>
         <TimeTable/>
     </>
   )

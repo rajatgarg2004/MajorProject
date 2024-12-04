@@ -1,18 +1,15 @@
 const TimeTable = require('../models/timeTableSchema');
-const Course = require('../models/courseSchema'); // To validate if the course exists
+const Course = require('../models/courseSchema');
 
-// Create a new timetable
 const addTimeTable = async (req, res) => {
     try {
         const { course, slots, hall } = req.body;
 
-        // Check if course exists
         const existingCourse = await Course.findById(course);
         if (!existingCourse) {
             return res.status(404).json({ message: 'Course not found' });
         }
 
-        // Create new timetable entry
         const newTimeTable = new TimeTable({
             course,
             slots,
@@ -27,17 +24,13 @@ const addTimeTable = async (req, res) => {
     }
 };
 
-// Get timetable by course
 const getTimeTableByCourse = async (req, res) => {
     try {
         const { courseId } = req.params;
-        
         const timeTable = await TimeTable.find({ course: courseId });
-        
         if (!timeTable || timeTable.length === 0) {
             return res.status(404).json({ message: 'No timetable found for this course' });
         }
-        
         return res.status(200).json(timeTable);
     } catch (error) {
         console.error(error);
@@ -45,7 +38,6 @@ const getTimeTableByCourse = async (req, res) => {
     }
 };
 
-// Get timetable by department and year
 const getTimeTableByDepartmentAndYear = async (req, res) => {
     try {
         const { departmentId, year } = req.params;
@@ -54,11 +46,9 @@ const getTimeTableByDepartmentAndYear = async (req, res) => {
             'course.department': departmentId,
             'course.year': year,
         });
-        
         if (!timeTable || timeTable.length === 0) {
             return res.status(404).json({ message: 'No timetable found for this department and year' });
         }
-        
         return res.status(200).json(timeTable);
     } catch (error) {
         console.error(error);
@@ -66,18 +56,13 @@ const getTimeTableByDepartmentAndYear = async (req, res) => {
     }
 };
 
-// Update timetable
 const updateTimeTable = async (req, res) => {
     try {
         const { timetableId, slots, hall } = req.body;
-
-        // Find the timetable by ID
         const existingTimeTable = await TimeTable.findById(timetableId);
         if (!existingTimeTable) {
             return res.status(404).json({ message: 'Timetable not found' });
         }
-
-        // Update the timetable
         existingTimeTable.slots = slots || existingTimeTable.slots;
         existingTimeTable.hall = hall || existingTimeTable.hall;
 
@@ -89,12 +74,10 @@ const updateTimeTable = async (req, res) => {
     }
 };
 
-// Delete timetable
 const deleteTimeTable = async (req, res) => {
     try {
         const { timetableId } = req.params;
 
-        // Find and delete the timetable
         const deletedTimeTable = await TimeTable.findByIdAndDelete(timetableId);
         if (!deletedTimeTable) {
             return res.status(404).json({ message: 'Timetable not found' });

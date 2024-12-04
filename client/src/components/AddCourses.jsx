@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 function AddCoursePage() {
   const [formData, setFormData] = useState({
@@ -7,8 +8,8 @@ function AddCoursePage() {
     description: '',
     year: '',
     credits: '',
-    electiveType: '',  // New field for elective type
-    electiveNumber: '', // New field for elective number
+    electiveType: '',
+    electiveNumber: '',
   });
 
   const [error, setError] = useState('');
@@ -24,7 +25,6 @@ function AddCoursePage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate fields
     if (!formData.name || !formData.code || !formData.description || !formData.year || !formData.credits || !formData.electiveType || !formData.electiveNumber) {
       setError('All fields are required!');
       return;
@@ -38,8 +38,8 @@ function AddCoursePage() {
       year: formData.year,
       credits: formData.credits,
       elective: {
-        type: formData.electiveType,       // Send elective type
-        number: formData.electiveNumber    // Send elective number
+        type: formData.electiveType,
+        number: formData.electiveNumber
       }
     };
 
@@ -62,8 +62,8 @@ function AddCoursePage() {
           description: '',
           year: '',
           credits: '',
-          electiveType: '', // Reset electiveType
-          electiveNumber: '', // Reset electiveNumber
+          electiveType: '',
+          electiveNumber: '',
         });
       } else {
         setError(data.message || 'An error occurred.');
@@ -75,7 +75,36 @@ function AddCoursePage() {
   };
 
   return (
-    <div className="p-10 bg-gray-800 flex flex-col items-center text-white rounded-lg shadow-lg w-[80%] m-5 mx-auto">
+    <div className=" bg-gray-800 flex flex-col items-center text-white rounded-lg shadow-lg w-[80%] m-5 mx-auto">
+      {/* Navigation links */}
+      <div className="py-4 mb-8 bg-black w-[100%] flex flex-row justify-center">
+        <nav className="flex gap-6 text-lg font-medium">
+          <NavLink
+            to="/home/head/courses"
+            className={({ isActive }) =>
+              `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-300 font-semibold' : 'text-white'}`
+            }
+          >
+            Add Courses
+          </NavLink>
+          <NavLink
+            to="/home/head/manage"
+            className={({ isActive }) =>
+              `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-300 font-semibold' : 'text-white'}`
+            }
+          >
+            Manage Courses
+          </NavLink>
+          <NavLink
+            to="/home/head/timetable"
+            className={({ isActive }) =>
+              `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-300 font-semibold' : 'text-white'}`
+            }
+          >
+            Manage TimeTable
+          </NavLink>
+        </nav>
+      </div>
       <h2 className="py-4 text-center font-bold sm:text-2xl md:text-3xl lg:text-4xl h-[5%]">Add New Course</h2>
 
       <form onSubmit={handleSubmit} className="w-[70%]">
@@ -194,6 +223,7 @@ function AddCoursePage() {
           Add Course
         </button>
       </form>
+
     </div>
   );
 }

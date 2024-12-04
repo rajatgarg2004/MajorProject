@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const TimetableManagement = () => {
     const [year, setYear] = useState('1'); // Default year
@@ -163,7 +164,35 @@ const TimetableManagement = () => {
     };
 
     return (
-        <div className="p-10 bg-gray-800 text-white rounded-lg shadow-lg w-[90%] mx-auto overflow-y-auto">
+        <div className="bg-gray-800 flex flex-col items-center text-white rounded-lg shadow-lg w-[90%] mx-auto overflow-y-auto">
+            <div className="py-4 mb-8 bg-black w-[120%] flex flex-row justify-center">
+                <nav className="flex gap-6 text-lg font-medium">
+                    <NavLink
+                        to="/home/head/courses"
+                        className={({ isActive }) =>
+                            `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-300 font-semibold' : 'text-white'}`
+                        }
+                    >
+                        Add Courses
+                    </NavLink>
+                    <NavLink
+                        to="/home/head/manage"
+                        className={({ isActive }) =>
+                            `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-300 font-semibold' : 'text-white'}`
+                        }
+                    >
+                        Manage Courses
+                    </NavLink>
+                    <NavLink
+                        to="/home/head/timetable"
+                        className={({ isActive }) =>
+                            `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-300 font-semibold' : 'text-white'}`
+                        }
+                    >
+                        Manage TimeTable
+                    </NavLink>
+                </nav>
+            </div>
             <h1 className="py-4 text-center font-bold sm:text-2xl md:text-3xl lg:text-4xl">Timetable Management</h1>
 
             {/* Error Message */}

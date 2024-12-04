@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { NavLink } from 'react-router-dom';
 
 const mockCourses = [
     { id: 1, name: "Electric Vehicles", code: "EV101", description: "Introduction to Electric Vehicles", year: "1", credits: "3" },
@@ -134,7 +135,35 @@ const ManageCourse = () => {
     };
 
     return (
-        <div className="p-10 bg-gray-800 flex flex-col items-center text-white rounded-lg shadow-lg w-[80%] mx-auto overflow-y-auto">
+        <div className="bg-gray-800 flex flex-col items-center text-white rounded-lg shadow-lg w-[80%] mx-auto overflow-y-auto">
+            <div className="py-4 mb-8 bg-black w-[120%] flex flex-row justify-center">
+                <nav className="flex gap-6 text-lg font-medium">
+                    <NavLink
+                        to="/home/head/courses"
+                        className={({ isActive }) =>
+                            `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-300 font-semibold' : 'text-white'}`
+                        }
+                    >
+                        Add Courses
+                    </NavLink>
+                    <NavLink
+                        to="/home/head/manage"
+                        className={({ isActive }) =>
+                            `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-300 font-semibold' : 'text-white'}`
+                        }
+                    >
+                        Manage Courses
+                    </NavLink>
+                    <NavLink
+                        to="/home/head/timetable"
+                        className={({ isActive }) =>
+                            `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-300 font-semibold' : 'text-white'}`
+                        }
+                    >
+                        Manage TimeTable
+                    </NavLink>
+                </nav>
+            </div>
             <h1 className="py-4 text-center font-bold sm:text-2xl md:text-3xl lg:text-4xl">Manage Courses</h1>
 
             {error && <div className="text-red-500 mb-4 text-center">{error}</div>}

@@ -1,202 +1,178 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const TimeTable = () => {
-  const timetable = [
-    [{
-      day: 'Monday',
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedElectives, setSelectedElectives] = useState({
+    departmentElective1: "",
+    departmentElective2: "",
+    openElective1: "",
+    openElective2: "",
+  });
+  const [filteredSubjects, setFilteredSubjects] = useState([]);
+  const subjectsTotal = {
+    'EL2009': {
+      teacher: 'RIK',
       periods: [
-        { time: '9:00 - 10:00', subject: 'Smart Grid', teacher: 'LK', room: 'DEC III S2' },
-        { time: '11:00 - 12:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-        { time: '12:00 - 1:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-        { time: '2:00 - 3:00', subject: 'CN Class', teacher: 'A', room: 'EL2009' },
+        { day: 'Tuesday', time: '10:00 - 11:00', room: 'L9', lab: false },
+        { day: 'Thursday', time: '11:00 - 12:00', room: 'L9', lab: false },
+        { day: 'Friday', time: '2:00 - 3:00', room: 'L9', lab: false },
       ],
+      elective: {
+        type: 'Department Elective',
+        number: 1,
+      },
+      year: '4'
     },
-    {
-      day: 'Tuesday',
+    'EL2011': {
+      teacher: 'JG',
       periods: [
-        { time: '8:00 - 9:00', subject: 'EL2011', teacher: 'JG', room: 'EL2017' },
-        { time: '9:00 - 10:00', subject: 'Physics', teacher: 'L4', room: 'EL2024' },
+        { day: 'Tuesday', time: '10:00 - 11:00', room: 'L8', lab: false },
+        { day: 'Thursday', time: '11:00 - 12:00', room: 'L8', lab: false },
+        { day: 'Friday', time: '2:00 - 3:00', room: 'L8', lab: false },
+        { day: 'Wednesday', time: '2:00 - 3:00', room: 'PE Lab', lab: true },
+        { day: 'Wednesday', time: '3:00 - 4:00', room: 'PE Lab', lab: true },
       ],
+      elective: {
+        type: 'Department Elective',
+        number: 1,
+      },
+      year: '4'
     },
-    {
-        day: 'Wednesday',
-        periods: [
-          { time: '8:00 - 9:00', subject: 'DS', teacher: 'L4', room: 'DEC III S2' },
-          { time: '9:00 - 10:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-          { time: '11:00 - 12:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-        ],
+    'EL2017': {
+      teacher: 'LK',
+      periods: [
+        { day: 'Tuesday', time: '10:00 - 11:00', room: 'T12', lab: false },
+        { day: 'Thursday', time: '11:00 - 12:00', room: 'T12', lab: false },
+        { day: 'Friday', time: '2:00 - 3:00', room: 'T12', lab: false },
+      ],
+      elective: {
+        type: 'Department Elective',
+        number: 1,
       },
-      {
-        day: 'Thursday',
-        periods: [
-          { time: '8:00 - 9:00', subject: 'EL2011', teacher: 'T11', room: 'EL2017' },
-          { time: '9:00 - 10:00', subject: 'Physics', teacher: 'L4', room: 'EL2024' },
-          { time: '11:00 - 12:00', subject: 'CN LAB', teacher: 'L8', room: 'EL2009' },
-        { time: '12:00 - 1:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-        ],
+      year: '4'
+    },
+    'EL2024': {
+      teacher: 'DS',
+      periods: [
+        { day: 'Monday', time: '2:00 - 3:00', room: 'L8', lab: false },
+        { day: 'Thursday', time: '9:00 - 10:00', room: 'L8', lab: false },
+        { day: 'Friday', time: '11:00 - 12:00', room: 'L8', lab: false },
+        { day: 'Wednesday', time: '2:00 - 3:00', room: 'MP Lab', lab: true },
+        { day: 'Wednesday', time: '3:00 - 4:00', room: 'MP Lab', lab: true },
+      ],
+      elective: {
+        type: 'Department Elective',
+        number: 2,
       },
-      {
-        day: 'Friday',
-        periods: [
-          { time: '8:00 - 9:00', subject: 'DS', teacher: 'L4', room: 'DEC III S2' },
-          { time: '9:00 - 10:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-          { time: '11:00 - 12:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-        ],
-      }],[
-        {
-          day: 'Monday',
-          periods: [
-            { time: '9:00 - 10:00', subject: 'Smart Grid', teacher: 'LK', room: 'DEC III S2' },
-            { time: '11:00 - 12:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-            { time: '12:00 - 1:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-            { time: '2:00 - 3:00', subject: 'CN Class', teacher: 'A', room: 'EL2009' },
-          ],
-        },
-        {
-          day: 'Tuesday',
-          periods: [
-            { time: '8:00 - 9:00', subject: 'EL2011', teacher: 'JG', room: 'EL2017' },
-            { time: '9:00 - 10:00', subject: 'Physics', teacher: 'L4', room: 'EL2024' },
-          ],
-        },
-        {
-            day: 'Wednesday',
-            periods: [
-              { time: '8:00 - 9:00', subject: 'DS', teacher: 'L4', room: 'DEC III S2' },
-              { time: '9:00 - 10:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-              { time: '11:00 - 12:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-            ],
-          },
-          {
-            day: 'Thursday',
-            periods: [
-              { time: '8:00 - 9:00', subject: 'EL2011', teacher: 'T11', room: 'EL2017' },
-              { time: '9:00 - 10:00', subject: 'Physics', teacher: 'L4', room: 'EL2024' },
-              { time: '11:00 - 12:00', subject: 'CN LAB', teacher: 'L8', room: 'EL2009' },
-            { time: '12:00 - 1:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-            ],
-          },
-          {
-            day: 'Friday',
-            periods: [
-              { time: '8:00 - 9:00', subject: 'DS', teacher: 'L4', room: 'DEC III S2' },
-              { time: '9:00 - 10:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-              { time: '11:00 - 12:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-            ],
-          }
-      ], [
-        {
-          day: 'Monday',
-          periods: [
-            { time: '9:00 - 10:00', subject: 'Smart Grid', teacher: 'LK', room: 'DEC III S2' },
-            { time: '11:00 - 12:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-            { time: '12:00 - 1:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-            { time: '2:00 - 3:00', subject: 'CN Class', teacher: 'A', room: 'EL2009' },
-          ],
-        },
-        {
-          day: 'Tuesday',
-          periods: [
-            { time: '8:00 - 9:00', subject: 'EL2011', teacher: 'JG', room: 'EL2017' },
-            { time: '9:00 - 10:00', subject: 'Physics', teacher: 'L4', room: 'EL2024' },
-          ],
-        },
-        {
-            day: 'Wednesday',
-            periods: [
-              { time: '8:00 - 9:00', subject: 'DS', teacher: 'L4', room: 'DEC III S2' },
-              { time: '9:00 - 10:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-              { time: '11:00 - 12:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-            ],
-          },
-          {
-            day: 'Thursday',
-            periods: [
-              { time: '8:00 - 9:00', subject: 'EL2011', teacher: 'T11', room: 'EL2017' },
-              { time: '9:00 - 10:00', subject: 'Physics', teacher: 'L4', room: 'EL2024' },
-              { time: '11:00 - 12:00', subject: 'CN LAB', teacher: 'L8', room: 'EL2009' },
-            { time: '12:00 - 1:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-            ],
-          },
-          {
-            day: 'Friday',
-            periods: [
-              { time: '8:00 - 9:00', subject: 'DS', teacher: 'L4', room: 'DEC III S2' },
-              { time: '9:00 - 10:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-              { time: '11:00 - 12:00', subject: 'MP LAB', teacher: 'L8', room: 'EL2009' },
-            ],
-          }
-      ], [
-        {
-          day: 'Monday',
-          periods: [
-            { time: '9:00 - 10:00', subject: 'EL2024', teacher: 'DS', room: 'L4' },
-            { time: '10:00 - 11:00', subject: 'EL2009', teacher: 'RIK', room: 'L8' },
-            { time: '11:00 - 12:00', subject: 'EL2027', teacher: 'AKP', room: 'T11' },
-          ],
-        },
-        {
-          day: 'Tuesday',
-          periods: [
-            { time: '10:00 - 11:00', subject: 'EL2017', teacher: 'LK', room: 'T12' },
-            { time: '11:00 - 12:00', subject: 'EL6011', teacher: 'TT', room: 'T12' },
-            { time: '12:00 - 1:00', subject: 'EL6012', teacher: 'DH', room: 'SEL' },
-            { time: '1:00 - 2:00', subject: 'EL6012', teacher: 'DH', room: 'SEL' },
-            { time: '2:00 - 3:00', subject: 'EL2027', teacher: 'AKP', room: 'T11' },
-            { time: '3:00 - 4:00', subject: 'HSM III', teacher: '', room: 'L8' },
-          ],
-        },
-        {
-            day: 'Wednesday',
-            periods: [
-              { time: '9:00 - 10:00', subject: 'EL2024', teacher: 'DS', room: 'L9' },
-              { time: '10:00 - 11:00', subject: 'EL2033', teacher: 'BS', room: 'T11' },
-              { time: '12:00 - 1:00', subject: 'EL2017', teacher: 'LK', room: 'T12' },
-              { time: '2:00 - 3:00', subject: 'EL2027', teacher: 'AKP', room: 'T10' },
-              { time: '3:00 - 4:00', subject: 'EL2027', teacher: 'AKP', room: 'SEL' },
-              { time: '4:00 - 5:00', subject: 'EL2027', teacher: 'AKP', room: 'SEL' },
-            ],
-          },
-          {
-            day: 'Thursday',
-            periods: [
-              { time: '10:00 - 11:00', subject: 'HSM III', teacher: '', room: 'L8' },
-              { time: '12:00 - 1:00', subject: 'EL2017', teacher: 'LK', room: 'T11' },
-              { time: '3:00 - 4:00', subject: 'EL2009', teacher: 'RIK', room: 'L9' },
-            ],
-          },
-          {
-            day: 'Friday',
-            periods: [
-              { time: '9:00 - 10:00', subject: 'EL2009', teacher: 'RIK', room: 'T12' },
-              { time: '10:00 - 11:00', subject: 'CS6701', teacher: 'AK', room: 'L27' },
-              { time: '11:00 - 12:00', subject: 'CS6701 Lab', teacher: 'Ak', room: '303' },
-              { time: '12:00 - 1:00', subject: 'CS6701 Lab', teacher: 'Ak', room: '303' },
-              { time: '1:00 - 2:00', subject: 'EL2017', teacher: 'LK', room: 'L9' },
-            ],
-          }
-      ]
-  ];
+      year: '4'
 
+    },
+    'EL2027': {
+      teacher: 'AKP',
+      periods: [
+        { day: 'Tuesday', time: '10:00 - 11:00', room: 'T11', lab: false },
+        { day: 'Thursday', time: '11:00 - 12:00', room: 'T11', lab: false },
+        { day: 'Friday', time: '2:00 - 3:00', room: 'T11', lab: false },
+      ],
+      elective: {
+        type: 'Department Elective',
+        number: 1,
+      },
+      year: '4'
+    },
+    'EL2033': {
+      teacher: 'BS',
+      periods: [
+        { day: 'Monday', time: '2:00 - 3:00', room: 'L9', lab: false },
+        { day: 'Thursday', time: '9:00 - 10:00', room: 'L9', lab: false },
+        { day: 'Friday', time: '11:00 - 12:00', room: 'L9', lab: false },
+      ],
+      elective: {
+        type: 'Department Elective',
+        number: 2,
+      },
+      year: '4'
+    },
+    'CS6701': {
+      teacher: 'BS',
+      periods: [
+        { day: 'Monday', time: '10:00 - 11:00', room: 'L26', lab: false },
+        { day: 'Tuesday', time: '11:00 - 12:00', room: 'L26', lab: false },
+        { day: 'Wednesday', time: '10:00 - 11:00', room: 'L27', lab: false },
+        { day: 'Thursday', time: '2:00 - 3:00', room: '303', lab: true },
+        { day: 'Thursday', time: '3:00 - 4:00', room: '303', lab: true },
+      ],
+      elective: {
+        type: 'Open Elective',
+        number: 1,
+      },
+      year: '4'
+    },
+    'AE6001': {
+      teacher: 'TKJ',
+      periods: [
+        { day: 'Monday', time: '10:00 - 11:00', room: 'L26', lab: false },
+        { day: 'Tuesday', time: '11:00 - 12:00', room: 'L26', lab: false },
+        { day: 'Wednesday', time: '10:00 - 11:00', room: 'L27', lab: false },
+        { day: 'Tuesday', time: '2:00 - 3:00', room: 'L26', lab: true },
+        { day: 'Tuesday', time: '3:00 - 4:00', room: 'L26', lab: true },
+      ],
+      elective: {
+        type: 'Open Elective',
+        number: 1,
+      },
+      year: '4'
+    },
+    'MM6001': {
+      teacher: 'GPS',
+      periods: [
+        { day: 'Tuesday', time: '1:00 - 2:00', room: 'L26', lab: false },
+        { day: 'Wednesday', time: '11:00 - 12:00', room: 'L26', lab: false },
+        { day: 'Thursday', time: '10:00 - 11:00', room: 'L27', lab: false },
+      ],
+      elective: {
+        type: 'Open Elective',
+        number: 2,
+      },
+      year: '4'
+    },
+    'PR6010': {
+      teacher: 'SK',
+      periods: [
+        { day: 'Tuesday', time: '1:00 - 2:00', room: 'DH5', lab: false },
+        { day: 'Wednesday', time: '11:00 - 12:00', room: 'DH5', lab: false },
+        { day: 'Thursday', time: '10:00 - 11:00', room: 'DH5', lab: false },
+      ],
+      elective: {
+        type: 'Open Elective',
+        number: 2,
+      },
+      year: '4'
+    }
+  }
   const periods = [
     '8:00 - 9:00', '9:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00',
     '12:00 - 1:00', '1:00 - 2:00', '2:00 - 3:00', '3:00 - 4:00', '4:00 - 5:00'
   ];
   const teachers = [
-    { code: 'AG', name: 'PhD. Ayushi'},
-    { code: 'AKP', name: 'Dr. Ajay Kumar'},
-    { code: 'BS', name: 'Dr. Balwinder Singh'},
-    { code: 'DA', name: 'Dr. Anu Singla'},
-    { code: 'DH', name: 'Dr. Hanuman'},
-    { code: 'DS', name: 'Dr. Shimi S.L.'},
-    { code: 'JG', name: 'Dr. Jaimala Gambhir'},
-    { code: 'LK', name: 'Dr. Loveleen Kaur'},
-    { code: 'MET', name: 'ME-I Tarun'},
-    { code: 'PC', name: 'Prof. Chailsy'},
-    { code: 'PR', name: 'Prof. Preeti'},
-    { code: 'PRV', name: 'Prof. Rajiv'},
-    { code: 'RIK', name: 'Dr. Rintu Khanna'},
-    { code: 'TT', name: 'Dr. Tilak Thakur'},
+    { code: 'AG', name: 'PhD. Ayushi' },
+    { code: 'AKP', name: 'Dr. Ajay Kumar' },
+    { code: 'BS', name: 'Dr. Balwinder Singh' },
+    { code: 'DA', name: 'Dr. Anu Singla' },
+    { code: 'DH', name: 'Dr. Hanuman' },
+    { code: 'DS', name: 'Dr. Shimi S.L.' },
+    { code: 'JG', name: 'Dr. Jaimala Gambhir' },
+    { code: 'LK', name: 'Dr. Loveleen Kaur' },
+    { code: 'MET', name: 'ME-I Tarun' },
+    { code: 'PC', name: 'Prof. Chailsy' },
+    { code: 'PR', name: 'Prof. Preeti' },
+    { code: 'PRV', name: 'Prof. Rajiv' },
+    { code: 'RIK', name: 'Dr. Rintu Khanna' },
+    { code: 'TT', name: 'Dr. Tilak Thakur' },
+    { code: 'TKJ', name: 'DR. Tejinder Kumar Jindal' },
+    { code: 'GPS', name: 'Gaurav Pal Singh' },
+    { code: 'AK', name: 'Atul Kumar' },
+    { code: 'SK', name: 'Suman Kant' }
   ];
 
   const subjects = [
@@ -210,48 +186,165 @@ const TimeTable = () => {
     'EL6012 Electric Vehicles',
     'EL6018 Energy Storage Systems',
     'HSM III',
+    'CS6701 Computer Networks',
+    'AE6001 Introduction To Aerospace Engineering',
+    'MM6001 Surface Engineering',
+    'PR6010  Product Design and Development'
   ];
 
   const classrooms = [
-    'BIO LAB', 'CONTROL LAB', 'EA LAB', 'L26 - NAB', 'L27 - NAB', 'L28 - NAB', 'L30 - NAB', 'L31 - NAB', 'L4', 'L8 - EE department', 'L9 - EE department',
-    'MACHINES LAB', 'MP LAB', 'Machine-II Lab', 'PE LAB', 'SEL', 'T10', 'T11', 'T12'
+    'BIO LAB - Electrical Department', 'CONTROL LAB - Electrical Department', 'EA LAB - Electrical Department', 'L26 - NAB', 'L27 - NAB', 'L28 - NAB', 'L30 - NAB', 'L31 - NAB', 'L4 - Electrical Department', 'L8 - Electrical Department', 'L9 - Electrical Department',
+    'MACHINES LAB - Electrical Department', 'MP LAB - Electrical Department', 'Machine Lab - Electrical Department', 'PE LAB - Electrical Department', 'T10 - Electrical Department', 'T11 - Electrical Department', 'T12 - Electrical Department', 'DH5 - Production Department', '303 - NAB'
   ];
+  const handleYearChange = (e) => {
+    const year = e.target.value;
+    setSelectedYear(year);
+
+    // Filter subjects based on year
+    const filtered = Object.keys(subjectsTotal).filter(
+      (subject) => subjectsTotal[subject].year === year
+    );
+    setFilteredSubjects(filtered);
+  };
+
+  const handleElectiveChange = (electiveType, subject) => {
+    setSelectedElectives((prev) => ({ ...prev, [electiveType]: subject }));
+
+    // Filter out periods for the same elective type
+    const updatedTimetable = filteredSubjects.filter((entry) => {
+      const electiveInfo = subjectsTotal[entry.subject]?.elective || {};
+      return !(electiveInfo.type === (electiveType.includes("department") ? "Department Elective" : "Open Elective") &&
+        electiveInfo.number === (electiveType.includes("1") ? 1 : 2));
+    });
+
+    // Add periods for the newly selected elective
+    if (subject) {
+      const electivePeriods = subjectsTotal[subject]?.periods || [];
+      electivePeriods.forEach((period) => {
+        if (!updatedTimetable.some((entry) => entry.day === period.day && entry.time === period.time)) {
+          updatedTimetable.push({
+            ...period,
+            subject,
+            teacher: subjectsTotal[subject]?.teacher || "Unknown",
+          });
+        }
+      });
+    }
+
+    setFilteredSubjects(updatedTimetable);
+  };
+
+
+
+  const getTimetable = () => filteredSubjects;
+
+
+  const timetable = getTimetable();
+  console.log(timetable)
   return (
-    <div className="overflow-x-auto bg-black p-10">
-      <h1 className='text-white text-center text-3xl p-3'>Welcome to Time Table Management System</h1>
-      <table className="table-auto w-full text-sm text-left border-collapse bg-black text-white shadow-lg rounded-lg">
-        <thead>
-          <tr className="bg-gray-800 text-white border-b">
-            <th className="border px-4 py-2">Day</th>
-            {periods.map((period, idx) => (
-              <th key={idx} className="border px-4 py-2 w-[2000px]">{period}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {timetable[3].map((day, index) => (
-            <tr key={index} className="border-b hover:bg-gray-700">
-              <td className="border px-4 py-2 bg-gray-900 font-bold">{day.day}</td>
-              {periods.map((period, idx) => {
-                const currentPeriod = day.periods.find(p => p.time === period);
-                return (
-                  <td key={idx} className={`border px-4 py-2 ${currentPeriod ? 'bg-gray-800' : 'bg-gray-900'}`}>
-                    {currentPeriod ? (
-                      <div>
-                        <div className="font-semibold">{currentPeriod.subject}</div>
-                        <div className="text-sm">{currentPeriod.teacher}</div>
-                        <div className="text-xs">{currentPeriod.room}</div>
-                      </div>
-                    ) : (
-                      <div className="text-gray-400">Free</div>
-                    )}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="overflow-x-auto bg-black p-10 w-[80%] m-5">
+      {/* Year Selection */}
+      <div className="my-4 flex flex-row justify-center">
+        <label className="text-white text-lg">Select Year: </label>
+        <select
+          className="p-2 bg-gray-800 text-white rounded"
+          onChange={handleYearChange}
+        >
+          <option value="">--Select Year--</option>
+          <option value="1">1st Year</option>
+          <option value="2">2nd Year</option>
+          <option value="3">3rd Year</option>
+          <option value="4">4th Year</option>
+        </select>
+      </div>
+
+      {/* Elective Dropdowns */}
+      {selectedYear && (
+        <div className="grid grid-cols-2 gap-4 text-white">
+          {["departmentElective1", "departmentElective2", "openElective1", "openElective2"].map(
+            (electiveType, idx) => (
+              <div key={idx}>
+                <label className="block mb-2 capitalize">
+                  {electiveType.replace(/([A-Z])/g, " $1")}:
+                </label>
+                <select
+                  className="p-2 bg-gray-800 text-white rounded w-full"
+                  onChange={(e) => handleElectiveChange(electiveType, e.target.value)}
+                >
+                  <option value="">--Select--</option>
+                  {filteredSubjects
+                    .filter(
+                      (subject) =>
+                        subjectsTotal[subject]?.elective?.type.includes(
+                          electiveType.includes("department") ? "Department" : "Open"
+                        ) &&
+                        subjectsTotal[subject]?.elective?.number ===
+                        (electiveType.includes("1") ? 1 : 2)
+                    )
+                    .map((subject) => (
+                      <option key={subject} value={subject}>
+                        {subject}
+                      </option>
+                    ))}
+                </select>
+              </div>
+            )
+          )}
+        </div>
+      )}
+
+      {/* Timetable Display */}
+      {timetable.length > 0 && (
+        <div className="mt-8">
+          <table className="table-auto w-full text-sm text-left border-collapse bg-black text-white shadow-lg rounded-lg">
+            <thead>
+              <tr className="bg-gray-800 text-white border-b">
+                <th className="border px-4 py-2">Day</th>
+                {periods.map((period, idx) => (
+                  <th key={idx} className="border px-4 py-2">{period}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((day, dayIdx) => (
+                <tr key={dayIdx} className="border-b hover:bg-gray-700">
+                  <td className="border px-4 py-2 bg-gray-900 font-bold">{day}</td>
+                  {periods.map((period, periodIdx) => {
+                    // Find the matching period details from the timetable
+                    const currentPeriod = filteredSubjects.find(
+                      (entry) => entry.day === day && entry.time === period
+                    );
+
+                    // Render the details for the current period
+                    return (
+                      <td
+                        key={periodIdx}
+                        className={`border px-4 py-2 ${currentPeriod ? "bg-gray-800" : "bg-gray-900"}`}
+                      >
+                        {currentPeriod ? (
+                          <div>
+                            <div className="font-semibold">
+                              {currentPeriod.lab ? "Lab: " : ""}
+                              {currentPeriod.subject}
+                            </div>
+                            <div className="text-sm">{currentPeriod.teacher}</div>
+                            <div className="text-xs">{currentPeriod.room}</div>
+                          </div>
+
+                        ) : (
+                          <div className="text-gray-400">Free</div>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+
+            </tbody>
+          </table>
+        </div>
+      )}
+
       <div className='flex flex-row justify-between'>
         <div className='flex flex-col justify-between'>
           <h2 className="text-white text-2xl mt-8 mb-4">Teachers</h2>

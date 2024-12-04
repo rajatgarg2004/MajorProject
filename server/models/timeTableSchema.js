@@ -17,7 +17,7 @@ const timeTableSchema = new mongoose.Schema({
                 type: Number,
                 required: true,
                 min: 0,
-                max: 8, // Corresponding to the time slots from 8 AM (0) to 4 PM (8)
+                max: 8,
                 validate: {
                     validator: (value) => Number.isInteger(value),
                     message: 'Start slot must be an integer between 0 and 8.',
@@ -41,3 +41,5 @@ const timeTableSchema = new mongoose.Schema({
 
 const TimeTable = mongoose.model('TimeTable', timeTableSchema);
 module.exports = TimeTable;
+
+
