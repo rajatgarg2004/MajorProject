@@ -1,124 +1,116 @@
-// const Timetable = require('../models/Timetable'); // Import Timetable model
+const TimeTable = require('../models/timeTableSchema');
+const Course = require('../models/courseSchema'); // To validate if the course exists
 
-// Fetch timetable for a student (based on year/subjects)
-const getTimetableForStudent = async (req, res) => {
-  try {
-    const { year } = req.query;
+// Create a new timetable
+const addTimeTable = async (req, res) => {
+    try {
+        const { course, slots, hall } = req.body;
 
-    if (!year) {
-      return res.status(400).json({
-        success: false,
-        message: 'Year is required',
-      });
+        // Check if course exists
+        const existingCourse = await Course.findById(course);
+        if (!existingCourse) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        // Create new timetable entry
+        const newTimeTable = new TimeTable({
+            course,
+            slots,
+            hall,
+        });
+
+        await newTimeTable.save();
+        return res.status(201).json({ message: 'Timetable added successfully', timetable: newTimeTable });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
     }
-
-    const timetable = await Timetable.find({ year });
-
-    if (!timetable || timetable.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: `No timetable found for year ${year}`,
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: `Timetable for year ${year}`,
-      timetable,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Server Error',
-      error: error.message,
-    });
-  }
 };
 
-// Fetch timetable for a teacher (based on the subject they teach)
-const getTimetableForTeacher = async (req, res) => {
-  try {
-    const { subject } = req.params; 
-
-    if (!subject) {
-      return res.status(400).json({
-        success: false,
-        message: 'Subject is required',
-      });
+// Get timetable by course
+const getTimeTableByCourse = async (req, res) => {
+    try {
+        const { courseId } = req.params;
+        
+        const timeTable = await TimeTable.find({ course: courseId });
+        
+        if (!timeTable || timeTable.length === 0) {
+            return res.status(404).json({ message: 'No timetable found for this course' });
+        }
+        
+        return res.status(200).json(timeTable);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
     }
-
-    const timetable = await Timetable.findOne({ subject });
-
-    if (!timetable) {
-      return res.status(404).json({
-        success: false,
-        message: `No timetable found for subject ${subject}`,
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: `Timetable for subject ${subject}`,
-      timetable,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Server Error',
-      error: error.message,
-    });
-  }
 };
 
-const modifyTimetable = async (req, res) => {
-  try {
-    const { year, subject, schedule } = req.body; 
-    if (!year || !subject || !schedule) {
-      return res.status(400).json({
-        success: false,
-        message: 'Year, subject, and schedule are required',
-      });
+// Get timetable by department and year
+const getTimeTableByDepartmentAndYear = async (req, res) => {
+    try {
+        const { departmentId, year } = req.params;
+        
+        const timeTable = await TimeTable.find({
+            'course.department': departmentId,
+            'course.year': year,
+        });
+        
+        if (!timeTable || timeTable.length === 0) {
+            return res.status(404).json({ message: 'No timetable found for this department and year' });
+        }
+        
+        return res.status(200).json(timeTable);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
     }
-
-    const timetable = await Timetable.findOne({ year, subject });
-
-    if (!timetable) {
-      const newTimetable = await Timetable.create({ year, subject, schedule });
-
-      return res.status(201).json({
-        success: true,
-        message: 'Timetable created successfully',
-        timetable: newTimetable,
-      });
-    }
-
-    timetable.schedule = schedule;
-    await timetable.save();
-
-    res.status(200).json({
-      success: true,
-      message: 'Timetable updated successfully',
-      timetable,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Server Error',
-      error: error.message,
-    });
-  }
 };
 
-const test = (req,res)=>{
-  return res.status(201).json({
-    success: true,
-    message: 'Timetable created successfully',
-    timetable: 'hello',
-  });
-}
+// Update timetable
+const updateTimeTable = async (req, res) => {
+    try {
+        const { timetableId, slots, hall } = req.body;
+
+        // Find the timetable by ID
+        const existingTimeTable = await TimeTable.findById(timetableId);
+        if (!existingTimeTable) {
+            return res.status(404).json({ message: 'Timetable not found' });
+        }
+
+        // Update the timetable
+        existingTimeTable.slots = slots || existingTimeTable.slots;
+        existingTimeTable.hall = hall || existingTimeTable.hall;
+
+        await existingTimeTable.save();
+        return res.status(200).json({ message: 'Timetable updated successfully', timetable: existingTimeTable });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Delete timetable
+const deleteTimeTable = async (req, res) => {
+    try {
+        const { timetableId } = req.params;
+
+        // Find and delete the timetable
+        const deletedTimeTable = await TimeTable.findByIdAndDelete(timetableId);
+        if (!deletedTimeTable) {
+            return res.status(404).json({ message: 'Timetable not found' });
+        }
+
+        return res.status(200).json({ message: 'Timetable deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
-  getTimetableForStudent,
-  getTimetableForTeacher,
-  modifyTimetable,
-  test
-}
+    addTimeTable,
+    getTimeTableByCourse,
+    getTimeTableByDepartmentAndYear,
+    updateTimeTable,
+    deleteTimeTable,
+};

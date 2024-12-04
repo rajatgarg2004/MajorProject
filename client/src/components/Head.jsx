@@ -1,14 +1,52 @@
-import React from 'react'
-import { Navigate } from 'react-router-dom'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Head = () => {
-    return (
-        <>
-            <div>Head</div>
-            <a href="/home/courses">Add Courses</a>
-        </>
+  return (
+    <div className="bg-gray-100  p-4">
+      <header className="bg-blue-600 text-white py-4">
+        <div className="container mx-auto text-center">
+          <h1 className="text-2xl font-bold">Head Dashboard</h1>
+        </div>
+      </header>
 
-    )
-}
+      <nav className="bg-white shadow-md py-2">
+        <ul className="container mx-auto flex justify-center gap-6 text-lg font-medium">
+          <li>
+            <NavLink
+              to="/home/head/courses"
+              className={({ isActive }) =>
+                `hover:text-blue-500 ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'}`
+              }
+            >
+              Add Courses
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/home/head/manage"
+              className={({ isActive }) =>
+                `hover:text-blue-500 ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'}`
+              }
+            >
+              Manage Courses
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/home/head/timetable"
+              className={({ isActive }) =>
+                `hover:text-blue-500 ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'}`
+              }
+            >
+              Manage TimeTable
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
 
-export default Head
+    </div>
+  );
+};
+
+export default Head;

@@ -27,21 +27,12 @@ const login = async (req, res) => {
     };
     const usertype = payload.email.split('@')[0];
     if (usertype.includes('head')) {
-      userDetails.role = 'head_teacher'; // If email contains 'head', assign 'head_teacher'
+      userDetails.role = 'head'; // If email contains 'head', assign 'head_teacher'
     } else if (!usertype.includes('.')) {
       userDetails.role = 'teacher'; // If email doesn't contain a period, assign 'teacher'
     } else {
-      userDetails.role = 'student';
+      userDetails.role = 'head';
     }
-    // const user = await User.findOne({ sid: sid });
-    // if (user) {
-    //   const token = generateTokenAndSetCookie(userDetails, res);
-    //   res.json({ message: 'Token is valid', userDetails });
-    // }else{
-    //   const user = await User.create(userDetails);
-    //   const token = generateTokenAndSetCookie(userDetails, res);
-    //   res.json({ message: 'Token is valid', userDetails });
-    // }
     let year = sid.slice(2, 4);
     const date = new Date();
     const yearLastTwoDigits = date.getFullYear().toString().slice(-2);
@@ -70,21 +61,22 @@ const login = async (req, res) => {
     } else if (branch.includes("prod")) {
       dept = "Production and Industrial Engineering";
     }
-    const department = await Department.findOne({ department: dept });
-    userDetails.department = department;
-    const user = await User.findOne({ sid });
+    const department = await Department.findOne({ name: dept });
+    userDetails.department = department._id;
+    const user = await User.findOne({ email : userDetails.email });
     if (user) {
+      await User.updateOne({ _id: user._id }, userDetails, { new: true });
       const token = generateTokenAndSetCookie(userDetails, res);
+      console.log(token);
+      userDetails.token = token;
       res.json({ message: 'Token is valid', userDetails });
     } else {
       const userNew = await User.create(userDetails);
       const token = generateTokenAndSetCookie(userDetails, res);
+      userDetails.token = token;
       res.json({ message: 'Token is valid', userDetails });
     }
 
-    // console.log(userDetails);
-    // generateTokenAndSetCookie(userDetails, res);
-    // res.json({ message: 'Token is valid', userDetails });
   } catch (error) {
     console.error('Error verifying token:', error); // Log the error
     res.status(400).json({ error: 'Invalid Token' });
@@ -114,6 +106,7 @@ const signup = async (req, res) => {
     userDetails.year = year;
     userDetails.subjects = [];
     const department = await Department.findOne({ name: "Electrical Engineering" });
+    console.log(department);
     userDetails.department = department;
     const user = await User.findOne({ sid });
     if (user) {
@@ -145,8 +138,21 @@ const deleteUser = async (req, res) => {
   }
 
 }
+const validateUser = async (req,res)=>{
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  try {
+    res.json({ role: user.role});
+  } catch (error) {
+    console.error('Role validation error:', error);
+    res.status(403).json({ error: 'Invalid token' });
+  }
+}
 module.exports = {
   login,
   signup,
-  deleteUser
+  deleteUser,
+  validateUser
 }

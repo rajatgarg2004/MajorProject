@@ -5,6 +5,7 @@ const addDepartment = async (req, res) => {
     if (user.role == 'head') {
         const department = new Department(req.body);
         try {
+            
             await department.save();
             res.status(201).json({ message: 'Department added successfully' });
         } catch (err) {
@@ -15,12 +16,12 @@ const addDepartment = async (req, res) => {
     }
 }
 const getDepartment = async (req, res) => {
-    const deptId = req.body.department;
-    if(!deptId){
-        return res.status(400).json({ message: 'Please provide department id' });
+    const deptName = req.body.departmentName;
+    if(!deptName){
+        return res.status(400).json({ message: 'Please provide department name' });
     }
     try {
-        const department = await Department.findById(deptId);
+        const department = await Department.findOne({name : deptName});
         if (!department) {
             return res.status(404).json({ message: 'Department not found' })
         }

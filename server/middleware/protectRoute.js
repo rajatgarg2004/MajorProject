@@ -3,7 +3,6 @@ const User = require("../models/userModel");
 
 const protectRoute = async (req, res, next) => {
     try {
-        console.log("Cookies: ", req.cookies);
         let token = req.cookies.jwt;
         if (!token) {
             console.log("No token found");
@@ -11,7 +10,7 @@ const protectRoute = async (req, res, next) => {
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("Decoded token:", decoded.userDetails.sid);
+        console.log("Decoded token:", decoded.userDetails.email);
 
         const user = await User.findOne({email : decoded.userDetails.email});
         console.log(user);

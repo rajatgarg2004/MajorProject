@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   sid : {type : String, required : true, unique : true},
   role: { type: String, enum: ['student', 'teacher', 'head'], required: true },
   year: { type: Number, required: function() { return this.role === 'student'; } },
-  subjects: [{ type: String }],
+  subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
   department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: true },
   picture : {type:String},
 });

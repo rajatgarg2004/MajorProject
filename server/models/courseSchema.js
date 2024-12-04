@@ -11,20 +11,37 @@ const courseSchema = new mongoose.Schema({
     unique: true
   },
   credits: {
-    type : String,
+    type: String,
     required: true,
   },
-  year : {
+  year: {
     type: String,
-    required : true,
+    required: true,
   },
-  department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: true },
-  description : {type : String}
+  department: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Department',
+    required: true
+  },
+  description: {
+    type: String
+  },
+  elective: {
+    type: {
+      type: String,
+      enum: ['Department Elective', 'Open Elective'],
+      required: true
+    },
+    number: {
+      type: String,
+      min: 1,
+      max: 4,
+      required: true
+    }
+  }
 }, {
   timestamps: true
 });
 
 const Course = mongoose.model('Course', courseSchema);
 module.exports = Course;
-
-
