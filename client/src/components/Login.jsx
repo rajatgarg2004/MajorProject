@@ -2,14 +2,16 @@ import React from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import userAtom from "../atoms/userAtom";
 import { useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const setUser = useSetRecoilState(userAtom);
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleSuccess = (response) => {
         const token = response.credential; // Google Token
-        console.log(token)
-        // Send the Google token to the backendt
+        console.log(token);
+        // Send the Google token to the backend
         fetch('http://localhost:5000/api/auth/google', {
             method: 'POST',
             headers: {
@@ -18,7 +20,6 @@ const Login = () => {
             body: JSON.stringify({ token }),
             credentials: 'include', // Allow cookies to be sent
         })
-        
             .then(async (res) => {
                 const data = (await res.json()).userDetails;
                 console.log(data);
@@ -27,6 +28,7 @@ const Login = () => {
                 }
                 localStorage.setItem('TimeTable', JSON.stringify(data));
                 setUser(data);
+                navigate('/home/head'); // Redirect to /home/head on successful login
             })
             .catch((error) => {
                 console.error('Error:', error);

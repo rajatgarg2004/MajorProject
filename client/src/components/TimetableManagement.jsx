@@ -164,8 +164,8 @@ const TimetableManagement = () => {
     };
 
     return (
-        <div className="bg-gray-800 flex flex-col items-center text-white rounded-lg shadow-lg w-[90%] mx-auto overflow-y-auto">
-            <div className="py-4 mb-8 bg-black w-[120%] flex flex-row justify-center">
+        <div className="bg-gray-800 pb-6 flex flex-col items-center text-white rounded-lg shadow-lg w-[90%] mx-auto overflow-y-auto">
+            <div className="py-4 mb-8 bg-black w-[100%] flex flex-row justify-center">
                 <nav className="flex gap-6 text-lg font-medium">
                     <NavLink
                         to="/home/head/courses"
