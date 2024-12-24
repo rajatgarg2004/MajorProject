@@ -257,7 +257,7 @@ const updateCourse = async (req, res) => {
     }
 
     try {
-        const course = await Course.findOne({ code: data.code });
+        const course = await Course.findById(data._id);
         if (!course) {
             return res.status(404).json({ message: 'Course not found' });
         }
@@ -270,7 +270,7 @@ const updateCourse = async (req, res) => {
         if (data.description) course.description = data.description;
         if (data.year) course.year = data.year;
         if (data.credits) course.credits = data.credits;
-
+        if(data.code) course.code = data.code;
         if (data.elective) {
             const { type, number } = data.elective;
             if (type && !['Department Elective', 'Open Elective'].includes(type)) {

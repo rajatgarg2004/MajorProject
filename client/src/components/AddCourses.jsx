@@ -103,6 +103,22 @@ function AddCoursePage() {
           >
             Manage TimeTable
           </NavLink>
+          <NavLink
+            to="/home/student"
+            className={({ isActive }) =>
+              `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-300 font-semibold' : 'text-white'}`
+            }
+          >
+            View Timetable
+          </NavLink>
+          <NavLink
+            to="/landingPage"
+            className={({ isActive }) =>
+              `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-300 font-semibold' : 'text-white'}`
+            }
+          >
+            Landing Page
+          </NavLink>
         </nav>
       </div>
       <h2 className="py-4 text-center font-bold sm:text-2xl md:text-3xl lg:text-4xl h-[5%]">Add New Course</h2>

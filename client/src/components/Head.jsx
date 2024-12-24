@@ -42,6 +42,26 @@ const Head = () => {
               Manage TimeTable
             </NavLink>
           </li>
+          <li className='my-4'>
+            <NavLink
+              to="/home/student"
+              className={({ isActive }) =>
+                `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'}`
+              }
+            >
+              View Timetable
+            </NavLink>
+          </li>
+          <li className='my-4'>
+            <NavLink
+              to="/landingPage"
+              className={({ isActive }) =>
+                `hover:text-blue-500 p-4 m-4 ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700'}`
+              }
+            >
+              Landing Page
+            </NavLink>
+          </li>
         </ul>
       </nav>
 

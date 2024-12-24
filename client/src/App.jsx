@@ -13,6 +13,7 @@ import ManageCourse from './components/ManageCourse';
 import TimetableManagement from './components/TimetableManagement';
 import LandingPage from './components/LandingPage';
 import DepartmentPage from './components/DepartmentPage';
+import Test1 from './components/Test1';
 function App() {
   const user = useRecoilValue(userAtom);
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ function App() {
 
   useEffect(() => {
     // Avoid redirecting to /auth if the current route is /landingPage
-    if (!localStorage.getItem("TimeTable") && !(location.pathname === "/landingPage" || location.pathname === "/" || location.pathname.startsWith("/branch/"))) {
+    if (!localStorage.getItem("TimeTable") && !(location.pathname === "/home/student" || location.pathname === "/landingPage" || location.pathname === "/" || location.pathname.startsWith("/branch/"))) {
       navigate('/auth');
     }
     
@@ -28,23 +29,25 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen w-full items-center justify-center">
-      <h1 className='text-4xl p-4'>Centralized Timetable Management System</h1>
+      <h1 className='text-4xl p-4'>Centralised Timetable Management System</h1>
       <Routes>
         {/* Default Route */}
         <Route path="/" element={user ? <Navigate to="/home" /> : <Navigate to="/auth" />} />
 
         <Route path="/landingPage" element={<LandingPage />} />
         <Route path="/branch/:branch" element={<DepartmentPage />} />
+        <Route path="/home/student" element={<Student />} />
 
         {/* Auth Routes */}
+        <Route path='/home/test' element={<Test1/>}/>
         <Route path="/auth" element={!user ? <AuthPage /> : <Navigate to="/" />} />
 
         {/* Protected Routes */}
-        <Route path="/home/student" element={
+        {/* <Route path="/home/student" element={
           <ProtectedRoute requiredRole="head">
             <Student />
           </ProtectedRoute>
-        } />
+        } /> */}
         <Route path="/home/teacher" element={
           <ProtectedRoute requiredRole="teacher">
             <Teacher />

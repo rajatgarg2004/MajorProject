@@ -28,7 +28,7 @@ const Login = () => {
                 }
                 localStorage.setItem('TimeTable', JSON.stringify(data));
                 setUser(data);
-                navigate('/home/head'); // Redirect to /home/head on successful login
+                navigate('/home/head');
             })
             .catch((error) => {
                 console.error('Error:', error);

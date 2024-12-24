@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const TimeTable = () => {
   const [selectedYear, setSelectedYear] = useState("");
@@ -94,7 +95,7 @@ const TimeTable = () => {
       year: '4'
     },
     'CS6701': {
-      teacher: 'BS',
+      teacher: 'AK',
       periods: [
         { day: 'Monday', time: '10:00 - 11:00', room: 'L26', lab: false },
         { day: 'Tuesday', time: '11:00 - 12:00', room: 'L26', lab: false },
